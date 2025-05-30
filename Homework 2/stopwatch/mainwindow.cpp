@@ -46,6 +46,7 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete stpwch;
 }
 
 void MainWindow::update_timer() {
