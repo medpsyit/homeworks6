@@ -30,15 +30,13 @@ void Stopwatch::stop() {
 
 void Stopwatch::clear() {
     lap_count = 1;
-    QTime t_t {0,0};
-    t = t_t;
-    l_t = t_t;
+    t.setHMS(0,0,0,0);
+    l_t.setHMS(0,0,0,0);
 }
 
 void Stopwatch::save_lap() {
     lap_count++;
-    QTime t_t {0,0};
-    l_t = t_t;
+    l_t.setHMS(0,0,0,0);
 }
 
 void Stopwatch::on_timeout() {
