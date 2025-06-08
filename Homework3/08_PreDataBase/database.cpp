@@ -56,6 +56,19 @@ void DataBase::DisconnectFromDataBase(QString nameDb)
 
 }
 
+QSqlQueryModel* DataBase::genre_filter(const QString& genre, QSqlDatabase* database) {
+    QSqlQueryModel* queryModel = new QSqlQueryModel(this);
+
+    QString query = QString("SELECT title, description FROM film f JOIN film_category fc on f.film_id = fc.film_id "
+                            "JOIN category c on c.category_id = fc.category_id WHERE c.name = '%1'").arg(genre);
+
+    queryModel->setQuery(query, *database);
+    queryModel->setHeaderData(0, Qt::Horizontal, tr("Название"));
+    queryModel->setHeaderData(1, Qt::Horizontal, tr("Описание"));
+
+    return queryModel;
+}
+
 void DataBase::RequestToDB(int request)
 {
 
@@ -73,27 +86,17 @@ void DataBase::RequestToDB(int request)
         }
         case requestComedy: {
 
-            QSqlQueryModel* queryModel = new QSqlQueryModel(this);
+            auto model = genre_filter("Comedy", dataBase);
 
-            queryModel->setQuery("SELECT title, description FROM film f JOIN film_category fc on f.film_id = fc.film_id "
-                                 "JOIN category c on c.category_id = fc.category_id WHERE c.name = 'Comedy'", *dataBase);
-            queryModel->setHeaderData(0, Qt::Horizontal, tr("Название"));
-            queryModel->setHeaderData(1, Qt::Horizontal, tr("Описание"));
-
-            emit sig_SendDataFromDB(queryModel, request);
+            emit sig_SendDataFromDB(model, request);
             break;
         }
 
         case requestHorrors: {
 
-            QSqlQueryModel* queryModel = new QSqlQueryModel(this);
+            auto model = genre_filter("Horror", dataBase);
 
-            queryModel->setQuery("SELECT title, description FROM film f JOIN film_category fc on f.film_id = fc.film_id "
-                                 "JOIN category c on c.category_id = fc.category_id WHERE c.name = 'Horror'", *dataBase);
-            queryModel->setHeaderData(0, Qt::Horizontal, tr("Название"));
-            queryModel->setHeaderData(1, Qt::Horizontal, tr("Описание"));
-
-            emit sig_SendDataFromDB(queryModel, request);
+            emit sig_SendDataFromDB(model, request);
             break;
         }
     }

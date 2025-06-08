@@ -58,6 +58,7 @@ private:
     QSqlQuery* simpleQuery;
     QTableWidget* tableWidget;
 
+    QSqlQueryModel* genre_filter(const QString& genre, QSqlDatabase* database);
 };
 
 #endif // DATABASE_H
