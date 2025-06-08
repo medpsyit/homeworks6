@@ -6,5 +6,5 @@
 - [Задание 1](https://github.com/medpsyit/homeworks6/blob/main/Homework%202/stopwatch/mainwindow.cpp)
 ## [Урок 3](Homework3/08_PreDataBase):
 - [Задание 1](https://github.com/medpsyit/homeworks6/blob/main/Homework3/08_PreDataBase/mainwindow.cpp)
-## [Урок 4](4):
-- [Задание 1]()
+## [Урок 4](Homework4/PreUDPsocket):
+- [Задание 1](https://github.com/medpsyit/homeworks6/blob/main/Homework4/PreUDPsocket/mainwindow.cpp)
