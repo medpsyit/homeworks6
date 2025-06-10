@@ -9,10 +9,13 @@ void UDPworker::InitSocket()
 {
 
     serviceUdpSocket = new QUdpSocket(this);
+    textUdpSocket = new QUdpSocket(this);
 
     serviceUdpSocket->bind(QHostAddress::LocalHost, BIND_PORT);
+    textUdpSocket->bind(QHostAddress::LocalHost, TEXT_PORT);
 
     connect(serviceUdpSocket, &QUdpSocket::readyRead, this, &UDPworker::readPendingDatagrams);
+    connect(textUdpSocket, &QUdpSocket::readyRead, this, &UDPworker::readTextPendingDatagrams);
 
 }
 
@@ -56,17 +59,27 @@ void UDPworker::SendDatagram(QByteArray data)
     serviceUdpSocket->writeDatagram(data, QHostAddress::LocalHost, BIND_PORT);
 }
 
+void UDPworker::SendTextDatagram(QByteArray data) {
+    textUdpSocket->writeDatagram(data, QHostAddress::LocalHost, TEXT_PORT);
+}
+
 void UDPworker::readPendingDatagrams( void )
 {
 
     while(serviceUdpSocket->hasPendingDatagrams()){
             QNetworkDatagram datagram = serviceUdpSocket->receiveDatagram();
-            if (time_on) {
-                ReadDatagram(datagram);
-            }
-            if (text_on) {
-                ReadSentDatagram(datagram);
-            }
+            ReadDatagram(datagram);
     }
 
 }
+
+void UDPworker::readTextPendingDatagrams( void )
+{
+
+    while(textUdpSocket->hasPendingDatagrams()){
+            QNetworkDatagram datagram = textUdpSocket->receiveDatagram();
+                ReadSentDatagram(datagram);
+    }
+
+}
+

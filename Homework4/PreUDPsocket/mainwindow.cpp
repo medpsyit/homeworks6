@@ -41,25 +41,21 @@ void MainWindow::on_pb_sent_clicked(){
     QByteArray dataToSend;
     QDataStream outStr(&dataToSend, QIODevice::WriteOnly);
 
-    udpWorker->text_on = true;
-
     outStr << ui->te_sent->toPlainText();
 
-    udpWorker->SendDatagram(dataToSend);
+    udpWorker->SendTextDatagram(dataToSend);
 }
 
 
 void MainWindow::on_pb_start_clicked()
 {
     timer->start(TIMER_DELAY);
-    udpWorker->time_on = true;
 }
 
 
 void MainWindow::DisplayText(qint64 bytes, QHostAddress sender, QString text) {
     ui->te_result->append("Получено сообщение: \"" + text + "\". От: " + sender.toString()
                           + ". Размер: " + QString::number(bytes) + " байт.");
-    udpWorker->text_on = false;
 }
 
 void MainWindow::DisplayTime(QDateTime data)
@@ -79,6 +75,5 @@ void MainWindow::DisplayTime(QDateTime data)
 void MainWindow::on_pb_stop_clicked()
 {
     timer->stop();
-    udpWorker->time_on = false;
 }
 

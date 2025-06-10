@@ -7,6 +7,7 @@
 
 
 #define BIND_PORT 12345
+#define TEXT_PORT 12346
 
 class UDPworker : public QObject
 {
@@ -17,14 +18,16 @@ public:
     void ReadDatagram( QNetworkDatagram datagram);
     void SendDatagram(QByteArray data );
 
+    void SendTextDatagram(QByteArray data);
     void ReadSentDatagram (QNetworkDatagram dg);
-    bool time_on = false;
-    bool text_on = false;
+
 private slots:
     void readPendingDatagrams(void);
+    void readTextPendingDatagrams(void);
 
 private:
     QUdpSocket* serviceUdpSocket;
+    QUdpSocket* textUdpSocket;
 
 signals:
     void sig_sendTimeToGUI(QDateTime data);
