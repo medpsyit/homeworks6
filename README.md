@@ -8,3 +8,5 @@
 - [Задание 1](https://github.com/medpsyit/homeworks6/blob/main/Homework3/08_PreDataBase/mainwindow.cpp)
 ## [Урок 4](Homework4/PreUDPsocket):
 - [Задание 1](https://github.com/medpsyit/homeworks6/blob/main/Homework4/PreUDPsocket/mainwindow.cpp)
+## [Урок 5](Homework5/PreTCPclient):
+- [Задание 1](https://github.com/medpsyit/homeworks6/blob/main/Homework5/PreTCPclient/mainwindow.cpp)
