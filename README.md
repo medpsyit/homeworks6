@@ -10,3 +10,4 @@
 - [Задание 1](https://github.com/medpsyit/homeworks6/blob/main/Homework4/PreUDPsocket/mainwindow.cpp)
 ## [Урок 5](Homework5/PreTCPclient):
 - [Задание 1](https://github.com/medpsyit/homeworks6/blob/main/Homework5/PreTCPclient/mainwindow.cpp)
+## [Курсовой проект](https://github.com/medpsyit/homeworks6/blob/main/Diploma/Airport_inspector)
