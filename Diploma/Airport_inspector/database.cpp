@@ -54,6 +54,12 @@ void DataBase::RecordAirportsList(void) {
 
     QString query = QString("SELECT airport_name->>'ru' as \"airportName\", airport_code FROM bookings.airports_data");
     airports->setQuery(query, *dataBase);
+
+    if (airports->lastError().isValid()) {
+        qDebug() << "Ошибка в выполнении запроса: " << airports->lastError().text();
+        return;
+    }
+
     if (airports->rowCount() > 0) { // Проверка, что есть данные
         for (int row = 0; row < airports->rowCount(); ++row) {
             QSqlRecord record = airports->record(row);
@@ -90,6 +96,11 @@ void DataBase::RequestSchedule(QString &airportCode, int &direction, QString &da
         QSqlQueryModel *model = new QSqlQueryModel(this);
         model->setQuery(query, *dataBase);
 
+        if (model->lastError().isValid()) {
+            qDebug() << "Ошибка в выполнении запроса: " << model->lastError().text();
+            return;
+        }
+
         model->setHeaderData(2, Qt::Horizontal, "Аэропорт отправления");
 
         emit sig_SendDataFromDB(model);
@@ -103,6 +114,11 @@ void DataBase::RequestSchedule(QString &airportCode, int &direction, QString &da
         QSqlQueryModel *model = new QSqlQueryModel(this);
         model->setQuery(query, *dataBase);
 
+        if (model->lastError().isValid()) {
+            qDebug() << "Ошибка в выполнении запроса: " << model->lastError().text();
+            return;
+        }
+
         model->setHeaderData(2, Qt::Horizontal, "Аэропорт назначения");
 
         emit sig_SendDataFromDB(model);
@@ -115,7 +131,7 @@ void DataBase::RequestSchedule(QString &airportCode, int &direction, QString &da
 }
 
 QString DataBase::GetAirportCode(QString &airportName) {
-    QString airportCode = airportsList[airportName];
+    QString airportCode = airportsList.value(airportName);
     return airportCode;
 }
 
@@ -127,6 +143,11 @@ void DataBase::GetYearModel(QString &airportCode) {
                             "WHERE (scheduled_departure::date > date('2016-08-31') and scheduled_departure::date <= date('2017-08-31')) "
                             "and ( departure_airport = '%1' or arrival_airport = '%1' ) group by \"Month\"").arg(airportCode);
     yearGraphTest->setQuery(query, *dataBase);
+
+    if (yearGraphTest->lastError().isValid()) {
+        qDebug() << "Ошибка в выполнении запроса: " << yearGraphTest->lastError().text();
+        return;
+    }
 
     emit sig_SendYearModel(yearGraphTest);
 }
@@ -148,6 +169,12 @@ void DataBase::GetMonthsModels(QString &airportCode) {
                                                                                                                   dateTo.toString("yyyy-MM-dd"));
 
         monthGraphTest->setQuery(query, *dataBase);
+
+        if (monthGraphTest->lastError().isValid()) {
+            qDebug() << "Ошибка в выполнении запроса: " << monthGraphTest->lastError().text();
+            return;
+        }
+
         models.append(monthGraphTest);
         dateFrom = dateFrom.addMonths(1);
 
@@ -156,3 +183,4 @@ void DataBase::GetMonthsModels(QString &airportCode) {
 
     emit sig_SendMonthsModels(models);
 }
+

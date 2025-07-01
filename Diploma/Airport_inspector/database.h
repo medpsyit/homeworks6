@@ -37,6 +37,7 @@ public:
     void GetYearModel(QString &airportCode);
 
     void GetMonthsModels(QString &airportCode);
+
 signals:
 
    void sig_SendDataFromDB(QSqlQueryModel* model);

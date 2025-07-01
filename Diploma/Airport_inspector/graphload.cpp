@@ -55,7 +55,7 @@ void GraphLoad::YearGraphCreate(QSqlQueryModel *model) {
 
     QList<int> flights_year;
 
-    if (model->rowCount() > 0) {
+    if (model != nullptr && model->rowCount() > 0) {
         for (int row = 0; row < model->rowCount(); ++row) {
             QSqlRecord record = model->record(row);
 
@@ -226,7 +226,20 @@ void GraphLoad::MonthsGraphsCreate() {
 
 void GraphLoad::ClearChart(QChart *chart) {
 
-    chart->removeAllSeries();
+    auto seriesList = chart->series();
+        for (auto *series : seriesList) {
+
+            auto *barSeries = qobject_cast<QAbstractBarSeries*>(series);
+            if (barSeries) {
+                auto barSets = barSeries->barSets();
+                for (auto *set : barSets) {
+                    delete set;
+                }
+            }
+
+            chart->removeSeries(series);
+            delete series;
+        }
 
     auto axes = chart->axes();
     for (auto *axis : axes) {
